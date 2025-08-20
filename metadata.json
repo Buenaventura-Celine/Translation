@@ -1,0 +1,5 @@
+{
+  "name": "ICU Message Translator",
+  "description": "A specialized tool for Flutter developers to translate English strings in ICU Message Format into multiple languages while preserving dynamic placeholders.",
+  "requestFramePermissions": []
+}

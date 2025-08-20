@@ -1,0 +1,25 @@
+
+import React from 'react';
+
+interface IcuInputProps {
+  value: string;
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}
+
+export const IcuInput: React.FC<IcuInputProps> = ({ value, onChange }) => {
+  return (
+    <div>
+      <label htmlFor="icu-input" className="block text-sm font-medium text-slate-300 mb-2">
+        Enter English ICU Message Strings (one per line)
+      </label>
+      <textarea
+        id="icu-input"
+        rows={5}
+        className="block w-full bg-slate-900/70 border border-slate-600 rounded-lg shadow-sm p-4 text-slate-200 placeholder-slate-500 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition duration-200"
+        placeholder="e.g., You have {count} items in your cart. (Enter one string per line)"
+        value={value}
+        onChange={onChange}
+      />
+    </div>
+  );
+};
