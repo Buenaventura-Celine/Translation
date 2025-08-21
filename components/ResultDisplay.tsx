@@ -79,7 +79,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, languages
 
 
   return (
-    <div className="mt-6">
+    <div>
        <div className="flex justify-between items-center mb-2">
         <label className="block text-sm font-medium text-slate-700">
           Translations ({results.length} strings)
@@ -90,24 +90,24 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, languages
             <CopyButton onClick={handleCopyAll} text="Copy All" copiedText="Table Copied!" />
          </div>
       </div>
-      <div className="bg-white border border-slate-200 rounded-lg max-h-[60vh] overflow-auto shadow-sm">
-        <table className="w-full text-sm text-left text-slate-600 table-fixed">
-            <thead className="text-xs text-slate-500 uppercase bg-slate-50 sticky top-0 z-10">
+      <div className="bg-white border border-slate-200 rounded-lg max-h-[75vh] overflow-auto shadow-sm">
+        <table className="min-w-full text-sm text-left text-slate-600 table-auto">
+            <thead className="text-sm font-medium text-slate-700 bg-slate-50/80 backdrop-blur sticky top-0 z-10 border-b border-slate-200">
                 <tr>
-                    {showIdColumn && <th scope="col" className="px-4 py-3 w-[15%]">ID</th>}
-                    <th scope="col" className="px-4 py-3 w-1/4">Original English</th>
+                    {showIdColumn && <th scope="col" className="px-6 py-3 min-w-48">ID</th>}
+                    <th scope="col" className="px-6 py-3 min-w-80">Original English</th>
                     {languages.map(lang => (
-                        <th scope="col" key={lang} className="px-4 py-3 w-1/4">{lang.toUpperCase()}</th>
+                        <th scope="col" key={lang} className="px-6 py-3 min-w-80">{lang.toUpperCase()}</th>
                     ))}
                 </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200">
+            <tbody className="divide-y divide-slate-200/75">
                 {results.map((result, index) => (
-                    <tr key={index} className="hover:bg-slate-50">
-                        {showIdColumn && <td className="px-4 py-3 font-mono text-indigo-600 whitespace-pre-wrap break-words align-top">{result.id}</td>}
-                        <td className="px-4 py-3 font-mono text-slate-800 whitespace-pre-wrap break-words align-top">{result.original}</td>
+                    <tr key={index} className="even:bg-slate-50/50 hover:bg-slate-50 transition-colors duration-150">
+                        {showIdColumn && <td className="px-6 py-4 font-mono text-indigo-600 whitespace-pre-wrap break-words align-top">{result.id}</td>}
+                        <td className="px-6 py-4 font-mono text-slate-800 whitespace-pre-wrap break-words align-top">{result.original}</td>
                         {languages.map(lang => (
-                            <td key={lang} className="px-4 py-3 font-mono whitespace-pre-wrap break-words align-top">
+                            <td key={lang} className="px-6 py-4 font-mono whitespace-pre-wrap break-words align-top">
                                 {result.translations[lang] || <span className="text-slate-400">...</span>}
                             </td>
                         ))}
