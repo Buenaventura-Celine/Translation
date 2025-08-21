@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ClipboardIcon, CheckIcon } from './icons';
 
@@ -29,11 +28,11 @@ const CopyButton: React.FC<{ onClick: () => void; text: string; copiedText: stri
     return (
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 focus:ring-offset-slate-800 transition-all duration-200 text-xs font-medium"
+          className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white transition-all duration-200 text-xs font-medium"
         >
           {isCopied ? (
             <>
-              <CheckIcon className="h-4 w-4 text-green-400" />
+              <CheckIcon className="h-4 w-4 text-green-500" />
               {copiedText}
             </>
           ) : (
@@ -82,7 +81,7 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, languages
   return (
     <div className="mt-6">
        <div className="flex justify-between items-center mb-2">
-        <label className="block text-sm font-medium text-slate-300">
+        <label className="block text-sm font-medium text-slate-700">
           Translations ({results.length} strings)
         </label>
          <div className="flex items-center gap-2">
@@ -91,9 +90,9 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, languages
             <CopyButton onClick={handleCopyAll} text="Copy All" copiedText="Table Copied!" />
          </div>
       </div>
-      <div className="bg-slate-900/70 border border-slate-600 rounded-lg max-h-[60vh] overflow-auto">
-        <table className="w-full text-sm text-left text-slate-300 table-fixed">
-            <thead className="text-xs text-sky-300 uppercase bg-slate-800 sticky top-0 z-10">
+      <div className="bg-white border border-slate-200 rounded-lg max-h-[60vh] overflow-auto shadow-sm">
+        <table className="w-full text-sm text-left text-slate-600 table-fixed">
+            <thead className="text-xs text-slate-500 uppercase bg-slate-50 sticky top-0 z-10">
                 <tr>
                     {showIdColumn && <th scope="col" className="px-4 py-3 w-[15%]">ID</th>}
                     <th scope="col" className="px-4 py-3 w-1/4">Original English</th>
@@ -102,14 +101,14 @@ export const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, languages
                     ))}
                 </tr>
             </thead>
-            <tbody className="divide-y divide-slate-700">
+            <tbody className="divide-y divide-slate-200">
                 {results.map((result, index) => (
-                    <tr key={index} className="hover:bg-slate-800/50">
-                        {showIdColumn && <td className="px-4 py-3 font-mono text-pink-400 whitespace-pre-wrap break-words align-top">{result.id}</td>}
-                        <td className="px-4 py-3 font-mono text-slate-100 whitespace-pre-wrap break-words align-top">{result.original}</td>
+                    <tr key={index} className="hover:bg-slate-50">
+                        {showIdColumn && <td className="px-4 py-3 font-mono text-indigo-600 whitespace-pre-wrap break-words align-top">{result.id}</td>}
+                        <td className="px-4 py-3 font-mono text-slate-800 whitespace-pre-wrap break-words align-top">{result.original}</td>
                         {languages.map(lang => (
                             <td key={lang} className="px-4 py-3 font-mono whitespace-pre-wrap break-words align-top">
-                                {result.translations[lang] || <span className="text-slate-500">...</span>}
+                                {result.translations[lang] || <span className="text-slate-400">...</span>}
                             </td>
                         ))}
                     </tr>

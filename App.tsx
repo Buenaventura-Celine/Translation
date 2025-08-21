@@ -80,13 +80,13 @@ const parseText = (content: string): ParsedString[] => {
 const OptionCard: React.FC<{ title: string; description: string; selected: boolean; onClick: () => void; icon: React.ReactNode; }> = ({ title, description, selected, onClick, icon }) => (
     <div
         onClick={onClick}
-        className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${selected ? 'bg-sky-500/20 border-sky-500 ring-2 ring-sky-500' : 'bg-slate-800/50 border-slate-700 hover:border-slate-500'}`}
+        className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${selected ? 'bg-blue-50 border-blue-500 ring-2 ring-blue-500' : 'bg-white border-slate-200 hover:border-slate-400'}`}
     >
         <div className="flex items-center gap-3">
-            <div className="bg-slate-700 p-2 rounded-md">{icon}</div>
+            <div className="bg-slate-100 p-2 rounded-md">{icon}</div>
             <div>
-                <h3 className="font-semibold text-slate-100">{title}</h3>
-                <p className="text-xs text-slate-400">{description}</p>
+                <h3 className="font-semibold text-slate-800">{title}</h3>
+                <p className="text-xs text-slate-500">{description}</p>
             </div>
         </div>
     </div>
@@ -209,27 +209,27 @@ const App: React.FC = () => {
   }, [inputType]);
   
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-200 font-sans flex flex-col items-center p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans flex flex-col items-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-7xl mx-auto">
         <Header />
-        <main className="mt-8 bg-slate-800/50 rounded-xl shadow-2xl p-6 md:p-8 border border-slate-700">
+        <main className="mt-8 bg-slate-50 rounded-xl shadow-lg p-6 md:p-8 border border-slate-200">
           <div className="space-y-8">
             {/* Step 1: Input Format */}
             <div className="space-y-3">
-                <h2 className="text-lg font-semibold text-slate-200">Step 1: Choose Your Input Format</h2>
+                <h2 className="text-lg font-semibold text-slate-800">Step 1: Choose Your Input Format</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <OptionCard title="ARB File" description="For Flutter's .arb localization files." selected={inputType === 'arb'} onClick={() => setInputType('arb')} icon={<CodeBracketIcon className="h-6 w-6 text-sky-400" />} />
-                    <OptionCard title="JS/TS Messages" description="For react-intl message definitions." selected={inputType === 'js'} onClick={() => setInputType('js')} icon={<CodeBracketIcon className="h-6 w-6 text-sky-400" />} />
-                    <OptionCard title="Plain Text / List" description="Simple list of strings, one per line." selected={inputType === 'text'} onClick={() => setInputType('text')} icon={<DocumentTextIcon className="h-6 w-6 text-sky-400" />} />
+                    <OptionCard title="ARB File" description="For Flutter's .arb localization files." selected={inputType === 'arb'} onClick={() => setInputType('arb')} icon={<CodeBracketIcon className="h-6 w-6 text-blue-600" />} />
+                    <OptionCard title="JS/TS Messages" description="For react-intl message definitions." selected={inputType === 'js'} onClick={() => setInputType('js')} icon={<CodeBracketIcon className="h-6 w-6 text-blue-600" />} />
+                    <OptionCard title="Plain Text / List" description="Simple list of strings, one per line." selected={inputType === 'text'} onClick={() => setInputType('text')} icon={<DocumentTextIcon className="h-6 w-6 text-blue-600" />} />
                 </div>
             </div>
 
             {/* Step 2: Language Arrangement */}
             <div className="space-y-3">
-                <h2 className="text-lg font-semibold text-slate-200">Step 2: Choose Language Arrangement</h2>
+                <h2 className="text-lg font-semibold text-slate-800">Step 2: Choose Language Arrangement</h2>
                  <div className="flex flex-wrap gap-2">
                     {arrangementOptions.map(key => (
-                         <button key={key} onClick={() => setArrangement(key as Arrangement)} className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors duration-200 ${arrangement === key ? 'bg-sky-600 text-white' : 'bg-slate-700 hover:bg-slate-600 text-slate-300'}`}>
+                         <button key={key} onClick={() => setArrangement(key as Arrangement)} className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors duration-200 ${arrangement === key ? 'bg-slate-900 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-700'}`}>
                             {key.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
                         </button>
                     ))}
@@ -240,14 +240,14 @@ const App: React.FC = () => {
                         value={customLanguages}
                         onChange={(e) => setCustomLanguages(e.target.value)}
                         placeholder="e.g., ja, ko, zh-CN"
-                        className="mt-2 block w-full bg-slate-900/70 border border-slate-600 rounded-lg p-2.5 text-slate-200 placeholder-slate-500 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        className="mt-2 block w-full bg-white border border-slate-300 rounded-lg p-2.5 text-slate-800 placeholder-slate-400 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 ) : (
-                    <div className="mt-2 flex items-start gap-2 text-slate-400 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
-                        <InformationCircleIcon className="h-5 w-5 mt-0.5 flex-shrink-0 text-sky-400" />
+                    <div className="mt-2 flex items-start gap-2 text-slate-500 bg-slate-100 p-3 rounded-lg border border-slate-200">
+                        <InformationCircleIcon className="h-5 w-5 mt-0.5 flex-shrink-0 text-blue-500" />
                         <div>
-                            <p className="text-sm font-medium text-slate-300">Languages to be translated:</p>
-                            <p className="text-xs font-mono text-slate-400 leading-relaxed break-words mt-1">
+                            <p className="text-sm font-medium text-slate-700">Languages to be translated:</p>
+                            <p className="text-xs font-mono text-slate-500 leading-relaxed break-words mt-1">
                                 {currentLanguages.join(', ')}
                             </p>
                         </div>
