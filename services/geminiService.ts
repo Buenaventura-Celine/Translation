@@ -1,51 +1,50 @@
 
 import { GoogleGenAI, GenerateContentResponse, Type } from "@google/genai";
-import { LANGUAGES } from '../constants';
 
-export interface TranslationResult {
+export interface ServiceTranslationResult {
   original: string;
   translations: Record<string, string>;
 }
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
 
-// Dynamically generate the properties for the translations object in the schema
-const translationProperties = LANGUAGES.reduce((acc, lang) => {
-  acc[lang] = {
-    type: Type.STRING,
-    description: `The translation in ${lang}.`
-  };
-  return acc;
-}, {} as Record<string, { type: Type; description: string }>);
-
-
-const responseSchema = {
-    type: Type.ARRAY,
-    description: "A list of translation objects, one for each original English string provided.",
-    items: {
-        type: Type.OBJECT,
-        properties: {
-            original: {
-                type: Type.STRING,
-                description: "The original English ICU string that was translated."
-            },
-            translations: {
-                type: Type.OBJECT,
-                properties: translationProperties,
-                description: "An object containing the translations, where each key is a language code."
-            }
-        },
-        required: ['original', 'translations']
-    }
-};
-
-
-export const translateIcuStrings = async (icuStrings: string[]): Promise<TranslationResult[]> => {
+export const translateIcuStrings = async (icuStrings: string[], languages: string[]): Promise<ServiceTranslationResult[]> => {
   if (!process.env.API_KEY) {
     throw new Error("API_KEY environment variable not set.");
   }
 
-  const languageList = LANGUAGES.join(', ');
+  // Dynamically generate the properties for the translations object in the schema
+  const translationProperties = languages.reduce((acc, lang) => {
+    acc[lang] = {
+      type: Type.STRING,
+      description: `The translation in ${lang}.`
+    };
+    return acc;
+  }, {} as Record<string, { type: Type; description: string }>);
+
+
+  const responseSchema = {
+      type: Type.ARRAY,
+      description: "A list of translation objects, one for each original English string provided.",
+      items: {
+          type: Type.OBJECT,
+          properties: {
+              original: {
+                  type: Type.STRING,
+                  description: "The original English ICU string that was translated."
+              },
+              translations: {
+                  type: Type.OBJECT,
+                  properties: translationProperties,
+                  description: "An object containing the translations, where each key is a language code."
+              }
+          },
+          required: ['original', 'translations']
+      }
+  };
+
+
+  const languageList = languages.join(', ');
 
   const prompt = `
     You are a specialized translation tool for a Flutter developer.
@@ -62,7 +61,7 @@ export const translateIcuStrings = async (icuStrings: string[]): Promise<Transla
     ${JSON.stringify(icuStrings)}
 
     **Final Format:**
-    Respond with a valid JSON array that adheres to the provided schema. Each object in the array should correspond to one of the original input strings and contain its translations.
+    Respond with a valid JSON array that adheres to the provided schema. Each object in the array should correspond to one of the original input strings and contain its translations. Ensure every language requested is present as a key in the 'translations' object for every string.
   `;
 
   try {
@@ -86,7 +85,11 @@ export const translateIcuStrings = async (icuStrings: string[]): Promise<Transla
         throw new Error("API response is not in the expected array format.");
     }
 
-    return parsedResult as TranslationResult[];
+    // Ensure the result matches the expected interface
+    return parsedResult.map((item: any) => ({
+        original: item.original || '',
+        translations: item.translations || {},
+    }));
 
   } catch (error) {
     console.error("Error calling Gemini API or parsing response:", error);
